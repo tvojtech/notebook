@@ -1,0 +1,8 @@
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+node_modules/
+bower_components/
