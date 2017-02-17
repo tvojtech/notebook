@@ -1,0 +1,9 @@
+<ul>
+    <li ng-repeat="item in $ctrl.items track by item.id">
+        <a ui-sref="notebook.list.detail({id: item.id})">
+            {{item.title}}
+        </a>
+    </li>
+</ul>
+
+<ui-view></ui-view>

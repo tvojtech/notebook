@@ -4,5 +4,8 @@
 *.ipr
 *.iws
 
+.tmp/
+dist/
+
 node_modules/
 bower_components/

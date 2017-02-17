@@ -1,0 +1,1 @@
+angular.module('notebook', ['ngResource', 'ui.router'])
