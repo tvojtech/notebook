@@ -1,0 +1,7 @@
+<div ng-if="!$ctrl.item.$resolved">Loading...</div>
+<div ng-if="$ctrl.item.$resolved">
+    <label>
+        Title
+        <span>{{$ctrl.item.title}}</span>
+    </label>
+</div>

@@ -10,11 +10,9 @@ angular.module('notebook').config(($urlRouterProvider, $stateProvider, $location
         .state('notebook.list', {
             url: '/list',
             template: '<note-list></note-list>',
-            controllerAs: '$ctrl'
         })
         .state('notebook.list.detail', {
             url: '/:id',
-            template: 'detail',
-            controllerAs: '$ctrl'
+            template: '<note-detail></note-detail>',
         })
 })
