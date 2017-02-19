@@ -1,1 +1,1 @@
-angular.module('notebook', ['ngResource', 'ui.router'])
+angular.module('notebook', ['ngResource', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ngTouch'])

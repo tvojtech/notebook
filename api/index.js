@@ -7,8 +7,8 @@ app.all('/api/*', function (req, res) {
     const newurl = 'http://private-9aad-note10.apiary-mock.com/' + req.url.split('/').slice(2).join('/');
     request(newurl).pipe(res);
 });
-app.use('/resources', express.static(path.join(process.cwd(), '.tmp')))
-app.all('/*', function (req, res, next) {
+app.use(express.static(path.join(process.cwd(), '.tmp')))
+app.get('/*', function (req, res, next) {
     // Just send the index.html for other files to support HTML5Mode
     res.sendFile('index.html', { root: path.join(process.cwd(), '.tmp') });
 });

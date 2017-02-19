@@ -6,6 +6,8 @@ const del = require('del')
 const runSequence = require('run-sequence')
 const watch = require('gulp-watch')
 const babel = require("gulp-babel")
+const sass = require("gulp-sass")
+const docker = require("gulp-docker")
 
 gulp.task('clean', done => {
     del('.tmp/**', {force: true})
@@ -26,7 +28,8 @@ gulp.task('server-dev', () => {
     })
     watch('public/**/*', () => runSequence('build-dev'))
     watch('src/**/*.js', () => runSequence('build-dev'))
-    watch('src/**/*.scss', () => runSequence('build-dev'))
+    watch('src/**/*.html', () => runSequence('build-dev'))
+    watch('src/**/*.scss', () => runSequence('sass'))
 })
 
 gulp.task('build-dev', done => {
@@ -34,14 +37,37 @@ gulp.task('build-dev', done => {
     gulp.src('src/**/*.js').pipe(babel()).pipe(gulp.dest('.tmp'))
     gulp.src('src/**/*.html').pipe(gulp.dest('.tmp'))
     gulp.src('bower_components/**/*').pipe(gulp.dest('.tmp/bower_components'))
+    runSequence('sass')
+    done()
+})
+
+gulp.task('sass', done => {
+    gulp.src('src/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp'))
     done()
 })
 
 gulp.task('concat', function() {
-    gulp.src('app/**/*.js').pipe(concat('main.js')).pipe(gulp.dest('dist'));
+    gulp.src('src/**/*.js').pipe(concat('main.js')).pipe(gulp.dest('dist'));
 });
 
-gulp.task('build', ['clean', 'concat'])
+gulp.task('docker', () => {
+    new docker(gulp, {
+        sidekick: {
+            dockerfile: '.'
+        }
+    })
+    gulp.start('docker:image')
+})
+
+gulp.task('build', () => {
+    runSequence('clean')
+    runSequence('build-dev')
+    runSequence('concat')
+
+    gulp.src('.tmp/**/*.js')
+
+    runSequence('docker')
+})
 
 gulp.task('default', done => {
     runSequence('clean', 'build-dev', 'server-dev', done)

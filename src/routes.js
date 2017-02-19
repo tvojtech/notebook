@@ -5,13 +5,13 @@ angular.module('notebook').config(($urlRouterProvider, $stateProvider, $location
     $stateProvider
         .state('notebook', {
             abstract: true,
-            template: '<ui-view/>'
+            templateUrl: 'main.html'
         })
         .state('notebook.list', {
             url: '/list',
             template: '<note-list></note-list>',
         })
-        .state('notebook.list.detail', {
+        .state('notebook.detail', {
             url: '/:id',
             template: '<note-detail></note-detail>',
         })

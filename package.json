@@ -17,9 +17,13 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.1",
     "gulp-nodemon": "^2.2.1",
+    "gulp-sass": "^3.1.0",
     "gulp-watch": "^4.3.11",
     "node-notify": "^1.0.0",
     "request": "^2.79.0",
     "run-sequence": "^1.2.2"
+  },
+  "dependencies": {
+    "gulp-docker": "^0.0.12"
   }
 }

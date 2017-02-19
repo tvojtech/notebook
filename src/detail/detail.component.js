@@ -1,5 +1,5 @@
 angular.module('notebook').component('noteDetail', {
-    templateUrl: 'resources/detail/detail.component.html',
+    templateUrl: 'detail/detail.component.html',
     controller: function ($stateParams, NotesApi) {
         const $ctrl = this;
         $ctrl.loading = true;

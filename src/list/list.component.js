@@ -1,6 +1,7 @@
 angular.module('notebook').component('noteList', {
-    templateUrl: 'resources/list/list.component.html',
-    controller: function (NotesApi) {
+    templateUrl: 'list/list.component.html',
+    controller: function (NotesApi, $state) {
         this.items = NotesApi.query();
+        this.$state = $state;
     }
 })
