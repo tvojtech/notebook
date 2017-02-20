@@ -1,0 +1,10 @@
+{
+    "notebook": {
+        "title": "Poznámky",
+        "loading": "Stahuji...",
+        "breadcrumbs": {
+            "list": "Seznam",
+            "detail": "Detail"
+        }
+    }
+}

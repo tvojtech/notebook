@@ -29,6 +29,7 @@ gulp.task('server-dev', () => {
     watch('public/**/*', () => runSequence('build-dev'))
     watch('src/**/*.js', () => runSequence('build-dev'))
     watch('src/**/*.html', () => runSequence('build-dev'))
+    watch('locales/**/*', () => runSequence('build-dev'))
     watch('src/**/*.scss', () => runSequence('sass'))
 })
 
@@ -36,6 +37,7 @@ gulp.task('build-dev', done => {
     gulp.src('public/**/*').pipe(gulp.dest('.tmp'))
     gulp.src('src/**/*.js').pipe(babel()).pipe(gulp.dest('.tmp'))
     gulp.src('src/**/*.html').pipe(gulp.dest('.tmp'))
+    gulp.src('locales/**/*').pipe(gulp.dest('.tmp/locales'))
     gulp.src('bower_components/**/*').pipe(gulp.dest('.tmp/bower_components'))
     runSequence('sass')
     done()

@@ -1,4 +1,6 @@
-<div ng-if="!$ctrl.item.$resolved">Loading...</div>
+<div ng-if="!$ctrl.item.$resolved">
+    <spinner message="{{'notebook.loading' | translate}}"></spinner>
+</div>
 <div ng-if="$ctrl.item.$resolved">
     <label>
         Title

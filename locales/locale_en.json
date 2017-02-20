@@ -1,0 +1,10 @@
+{
+    "notebook": {
+        "title": "Notes",
+        "loading": "Loading...",
+        "breadcrumbs": {
+            "list": "List",
+            "detail": "Detail"
+        }
+    }
+}
