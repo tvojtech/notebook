@@ -3,46 +3,41 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button"
-                    class="navbar-toggle collapsed"
-                    data-toggle="collapse"
-                    data-target="#collapsible-navbar"
-                    aria-expanded="false">
+                        class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#collapsible-navbar"
+                        aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand"
-                        href="/">{{'notebook.title' | translate}}</a>
+                </button>
+                <a class="navbar-brand"
+                   href="/">{{'notebook.title' | translate}}</a>
             </div>
             <div class="collapse navbar-collapse"
-                id="collapsible-navbar">
+                 id="collapsible-navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-repeat="language in ['en', 'cs']">
                         <a class="lang" href="#"
-                            ng-click="mainController.changeLang(language)"
-                            ng-class="{active: mainController.isCurrentLang(language)}">
-                                {{language}}
+                           ng-click="mainController.changeLang(language)"
+                           ng-class="{active: mainController.isCurrentLang(language)}">
+                            {{language}}
                         </a>
                     </li>
-                    <li>
-                        <button class="btn" ng-click="mainController.openCreateNote()">
-                            {{'notebook.create' | translate}}
-                        </button>
-                    </li>
                 </ul>
+            </div>
         </div>
-</div>
-</nav>
+    </nav>
 
-<div class="app-content">
-    <breadcrumbs></breadcrumbs>
-    <ui-view></ui-view>
-</div>
+    <div class="app-content">
+        <breadcrumbs></breadcrumbs>
+        <ui-view></ui-view>
+    </div>
 
-<footer class="hidden-xs hidden-md">
-    <p>
-        (c) 2017 ABCD Company Inc.
-    </p>
-</footer>
+    <footer class="hidden-xs hidden-md">
+        <p>
+            (c) 2017 Tomas Vojtech
+        </p>
+    </footer>
 </div>

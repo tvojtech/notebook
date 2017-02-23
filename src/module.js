@@ -14,4 +14,5 @@ angular.module(
         prefix: '/locales/locale_',
         suffix: '.json'
     }).determinePreferredLanguage()
+    $translateProvider.fallbackLanguage(['en'])
 })

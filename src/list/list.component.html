@@ -1,3 +1,6 @@
+<div class="container-fluid">
+    <create-note-button on-create="$ctrl.forceUpdate()"></create-note-button>
+</div>
 <div class="list-group">
     <a ng-repeat="item in $ctrl.items track by item.id" class="list-group-item" ui-sref="notebook.detail({id: item.id})">
         {{item.title}}

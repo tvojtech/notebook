@@ -1,10 +1,23 @@
 {
     "notebook": {
+        "common": {
+            "error": {
+                "required": "Toto pole nesmí být prázdné.",
+                "minlength": "Toto pole musí mít hodnotu alespoň {{minLen}} znaků dlouhou."
+            }
+        },
         "title": "Poznámky",
         "loading": "Stahuji...",
         "breadcrumbs": {
             "list": "Seznam",
             "detail": "Detail"
+        },
+        "create": "Nová poznámka",
+        "createForm": {
+            "title": "Nová poznámka",
+            "noteTitle": "Název",
+            "okButton": "Uložit",
+            "cancelButton": "Zrušit"
         }
     }
 }
