@@ -8,11 +8,11 @@ angular.module('notebook').component('breadcrumbs', {
     </ol>
   `,
   controller: function ($state, $rootScope) {
-    const $ctrl = this;
-    $ctrl.crumbs = $state.$current.data.breadcrumbs;
+    const $ctrl = this
+    $ctrl.crumbs = $state.$current.data.breadcrumbs
     $ctrl.navigate = crumb => $state.go(crumb.state, crumb.stateParams || {})
     $rootScope.$on('$stateChangeSuccess', () => {
-      $ctrl.crumbs = $state.$current.data.breadcrumbs;
+      $ctrl.crumbs = $state.$current.data.breadcrumbs
     })
   }
 })

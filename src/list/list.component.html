@@ -1,11 +1,18 @@
 <div class="container-fluid">
-    <create-note-button on-create="$ctrl.forceUpdate()"></create-note-button>
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <create-note-button on-create="$ctrl.forceUpdate()"></create-note-button>
+    </div>
+    <div class="col-sm-6 col-xs-12 text-right">
+      <input type="text" ng-model="$ctrl.search" placeholder="{{'notebook.list.searchPlaceholder' | translate}}">
+    </div>
+  </div>
 </div>
 <div class="list-group">
-    <a ng-repeat="item in $ctrl.items track by item.id" class="list-group-item" ui-sref="notebook.detail({id: item.id})">
-        {{item.title}}
-    </a>
-    <div class="list-group-item" ng-if="!$ctrl.items.$resolved">
-        <spinner message="{{'notebook.loading' | translate}}"></spinner>
-    </div>
+  <a ng-repeat="item in $ctrl.items | filter:$ctrl.search track by item.id" class="list-group-item" ui-sref="notebook.detail({id: item.id})">
+    {{item.title}}
+  </a>
+  <div class="list-group-item" ng-if="!$ctrl.items.$resolved">
+    <spinner message="{{'notebook.loading' | translate}}"></spinner>
+  </div>
 </div>

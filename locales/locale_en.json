@@ -18,6 +18,9 @@
             "noteTitle": "Note Title",
             "okButton": "OK",
             "cancelButton": "Cancel"
-        }
+        },
+      "list": {
+        "searchPlaceholder": "Search"
+      }
     }
 }

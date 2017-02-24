@@ -59,9 +59,9 @@ footer {
 .button-create {
   @extend .btn;
   @extend .btn-primary;
-  position: absolute;
-  right: 20px;
-  top: 55px;
+  //position: absolute;
+  //right: 20px;
+  //top: 55px;
 }
 
 .button-create:before {
