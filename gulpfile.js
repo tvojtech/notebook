@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const gulp = require('gulp')
 const nodemon = require('gulp-nodemon')
 const concat = require('gulp-concat')
@@ -13,12 +14,8 @@ const angularProtractor = require('gulp-angular-protractor')
 const jsSources = () => gulp.src(['src/**/*.js', 'api/**/*.js'])
 const e2eTestSources = () => gulp.src(['e2e/**/*.test.js'])
 
-gulp.task('clean', done => {
-  del('.tmp/**', {force: true})
-  del('dist/**', {force: true})
-  del('.tmp', {force: true})
-  del('dist', {force: true})
-  done()
+gulp.task('clean', () => {
+  del(['.tmp/**', '.tmp', 'dist/**', 'dist'], {force: true})
 })
 
 gulp.task('server-dev', () => {
@@ -39,7 +36,7 @@ gulp.task('server-dev', () => {
 
 gulp.task('build-dev', done => {
   gulp.src('public/**/*').pipe(gulp.dest('.tmp'))
-  gulp.src('src/**/*.js').pipe(babel()).pipe(gulp.dest('.tmp'))
+  gulp.src('src/**/*.js').pipe(babel()).on('error', console.log).pipe(gulp.dest('.tmp'))
   gulp.src('src/**/*.html').pipe(gulp.dest('.tmp'))
   gulp.src('locales/**/*').pipe(gulp.dest('.tmp/locales'))
   gulp.src('bower_components/**/*').pipe(gulp.dest('.tmp/bower_components'))
@@ -48,12 +45,12 @@ gulp.task('build-dev', done => {
 })
 
 gulp.task('sass', done => {
-  gulp.src('src/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp'))
+  gulp.src('src/**/*.scss').pipe(sass().on('error', sass.logError)).pipe(gulp.dest('.tmp'))
   done()
 })
 
 gulp.task('concat', function () {
-  gulp.src('src/**/*.js').pipe(concat('main.js')).pipe(gulp.dest('dist'))
+  gulp.src('src/**/*.js').pipe(concat('main.js')).on('error', console.log).pipe(gulp.dest('dist'))
 })
 
 gulp.task('docker', () => {
