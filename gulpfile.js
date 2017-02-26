@@ -10,18 +10,31 @@ const sass = require('gulp-sass')
 const docker = require('gulp-docker')
 const eslint = require('gulp-eslint')
 const angularProtractor = require('gulp-angular-protractor')
+const inject = require('gulp-inject')
+const bowerFiles = require('main-bower-files')
 
-const jsSources = () => gulp.src(['src/**/*.js', 'api/**/*.js'])
+const jsUiSources = ['src/**/*.js']
+const jsApiSources = ['api/**/*.js']
+const readJsSources = () => gulp.src(jsUiSources.concat(jsApiSources))
+const readUiSources = () => gulp.src(jsUiSources)
+const readApiSources = () => gulp.src(jsApiSources)
 const e2eTestSources = () => gulp.src(['e2e/**/*.test.js'])
 
 gulp.task('clean', () => {
   del(['.tmp/**', '.tmp', 'dist/**', 'dist'], {force: true})
 })
 
+const index = (jsFiles, cssFiles) => {
+  const target = gulp.src('public/index.html')
+  target
+    .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower', addRootSlash: false}))
+    .pipe(inject(gulp.src(jsFiles, {read: false}), {addRootSlash: false}))
+    .pipe(inject(gulp.src(cssFiles, {read: false}), {addRootSlash: false}))
+    .pipe(gulp.dest('.tmp'))
+}
+
 gulp.task('server-dev', () => {
-  // configure nodemon
   nodemon({
-    // the script to run the app
     script: 'api/index.js',
     // this listens to changes in any of these files/routes and restarts the application
     watch: ['api/**/*.js'],
@@ -41,6 +54,7 @@ gulp.task('build-dev', done => {
   gulp.src('locales/**/*').pipe(gulp.dest('.tmp/locales'))
   gulp.src('bower_components/**/*').pipe(gulp.dest('.tmp/bower_components'))
   runSequence('sass')
+  index('src/**/*.js', '.tmp/app.css')
   done()
 })
 
@@ -70,9 +84,9 @@ gulp.task('build', () => {
   runSequence('docker')
 })
 
-gulp.task('eslint', () => jsSources().pipe(eslint()).pipe(eslint.format()).pipe(eslint.failAfterError()))
+gulp.task('eslint', () => readJsSources().pipe(eslint()).pipe(eslint.format()).pipe(eslint.failAfterError()))
 
-gulp.task('test:e2e', callback => {
+gulp.task('test:e2e', done => {
   //noinspection Eslint
   e2eTestSources()
     .pipe(angularProtractor({
@@ -81,7 +95,7 @@ gulp.task('test:e2e', callback => {
       autoStartStopServer: true
     }))
     .on('error', e => console.log(e))
-    .on('end', callback)
+    .on('end', done)
 })
 
 gulp.task('default', done => {
