@@ -12,26 +12,18 @@ const eslint = require('gulp-eslint')
 const angularProtractor = require('gulp-angular-protractor')
 const inject = require('gulp-inject')
 const bowerFiles = require('main-bower-files')
+const path = require('path')
 
+const tempDest = '.tmp'
 const jsUiSources = ['src/**/*.js']
 const jsApiSources = ['api/**/*.js']
 const readJsSources = () => gulp.src(jsUiSources.concat(jsApiSources))
-const readUiSources = () => gulp.src(jsUiSources)
-const readApiSources = () => gulp.src(jsApiSources)
+const readUiSources = () => gulp.src(jsUiSources.concat(['!bower_components/**/*.js ']))
 const e2eTestSources = () => gulp.src(['e2e/**/*.test.js'])
 
 gulp.task('clean', () => {
   del(['.tmp/**', '.tmp', 'dist/**', 'dist'], {force: true})
 })
-
-const index = (jsFiles, cssFiles) => {
-  const target = gulp.src('public/index.html')
-  target
-    .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower', addRootSlash: false}))
-    .pipe(inject(gulp.src(jsFiles, {read: false}), {addRootSlash: false}))
-    .pipe(inject(gulp.src(cssFiles, {read: false}), {addRootSlash: false}))
-    .pipe(gulp.dest('.tmp'))
-}
 
 gulp.task('server-dev', () => {
   nodemon({
@@ -40,28 +32,8 @@ gulp.task('server-dev', () => {
     watch: ['api/**/*.js'],
     ext: 'js'
   })
-  watch('public/**/*', () => runSequence('build-dev'))
-  watch('src/**/*.js', () => runSequence('build-dev'))
-  watch('src/**/*.html', () => runSequence('build-dev'))
-  watch('locales/**/*', () => runSequence('build-dev'))
-  watch('src/**/*.scss', () => runSequence('sass'))
 })
 
-gulp.task('build-dev', done => {
-  gulp.src('public/**/*').pipe(gulp.dest('.tmp'))
-  gulp.src('src/**/*.js').pipe(babel()).on('error', console.log).pipe(gulp.dest('.tmp'))
-  gulp.src('src/**/*.html').pipe(gulp.dest('.tmp'))
-  gulp.src('locales/**/*').pipe(gulp.dest('.tmp/locales'))
-  gulp.src('bower_components/**/*').pipe(gulp.dest('.tmp/bower_components'))
-  runSequence('sass')
-  index('src/**/*.js', '.tmp/app.css')
-  done()
-})
-
-gulp.task('sass', done => {
-  gulp.src('src/**/*.scss').pipe(sass().on('error', sass.logError)).pipe(gulp.dest('.tmp'))
-  done()
-})
 
 gulp.task('concat', function () {
   gulp.src('src/**/*.js').pipe(concat('main.js')).on('error', console.log).pipe(gulp.dest('dist'))
@@ -74,14 +46,6 @@ gulp.task('docker', () => {
     }
   })
   gulp.start('docker:image')
-})
-
-gulp.task('build', () => {
-  runSequence('clean')
-  runSequence('eslint')
-  runSequence('build-dev')
-  runSequence('concat')
-  runSequence('docker')
 })
 
 gulp.task('eslint', () => readJsSources().pipe(eslint()).pipe(eslint.format()).pipe(eslint.failAfterError()))
@@ -98,6 +62,43 @@ gulp.task('test:e2e', done => {
     .on('end', done)
 })
 
+gulp.test('test')
+
+gulp.task('copy-public', () => gulp.src('public/**/*').pipe(gulp.dest(tempDest)))
+gulp.task('build-public', ['copy-public'], () => {
+  return gulp.src('index.html', {cwd: tempDest})
+    .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower', addRootSlash: false}))
+    .pipe(inject(gulp.src(['module.js', '**/*.js', '**/*.css', '!bower_components/**'], {read: false, cwd: tempDest}), {
+      addRootSlash: false,
+      relative: true
+    }))
+    .pipe(gulp.dest(tempDest))
+})
+gulp.task('build-js', () => gulp.src('src/**/*.js').pipe(babel()).on('error', console.log).pipe(gulp.dest(tempDest)))
+gulp.task('build-html', () => gulp.src('src/**/*.html').pipe(gulp.dest(tempDest)))
+gulp.task('build-locales', () => gulp.src('locales/**/*').pipe(gulp.dest(path.join(tempDest, 'locales'))))
+gulp.task('build-bower', () => gulp.src('bower_components/**/*').pipe(gulp.dest(path.join(tempDest, 'bower_components'))))
+gulp.task('build-sass', () => gulp.src('src/**/*.scss').pipe(sass().on('error', sass.logError)).pipe(gulp.dest('.tmp')))
+
+gulp.task('build-dev', () => runSequence(
+  ['build-js', 'build-html', 'build-locales', 'build-sass', 'build-bower'],
+  'build-public'
+  )
+)
+
+gulp.task('watch-public', () => watch('public/**/*', runSequence('build-public')))
+gulp.task('watch-js', () => watch('src/**/*.js', runSequence('build-js')))
+gulp.task('watch-html', () => watch('src/**/*.html', runSequence('build-html')))
+gulp.task('watch-locales', () => watch('locales/**/*', runSequence('build-locales')))
+gulp.task('watch-bower', () => watch('bower_components/**/*', runSequence('build-bower')))
+gulp.task('watch-sass', () => watch('src/**/*.scss', runSequence('build-sass')))
+
+gulp.task('watch', ['watch-public', 'watch-js', 'watch-html', 'watch-locales', 'watch-bower', 'watch-sass'])
+
+gulp.task('build', () => {
+  runSequence(['clean', 'eslint', 'test'], 'build-dev', 'concat', 'docker')
+})
+
 gulp.task('default', done => {
-  runSequence('clean', 'eslint', 'build-dev', 'server-dev', done)
+  runSequence(['clean', 'eslint'], 'build-dev', 'server-dev', done)
 })
