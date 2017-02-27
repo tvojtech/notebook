@@ -2,29 +2,10 @@
     <h3 class="modal-title" id="modal-title">{{'notebook.createForm.title' | translate}}</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <form name="createNoteForm" novalidate ng-class="{submitted: $ctrl.submitted}">
-        <div ng-init="$ctrl.form = createNoteForm"></div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6"><label for="createNoteForm_noteTitle">
-                    {{'notebook.createForm.noteTitle' | translate}}
-                </label></div>
-                <div class="col-xs-12 col-sm-6">
-                    <input type="text" id="createNoteForm_noteTitle" name="noteTitle" ng-model="$ctrl.note.title"
-                           required="" minlength="5">
-                    <div class="error" ng-if="createNoteForm.noteTitle.$error.required">
-                        {{'notebook.common.error.required' | translate}}
-                    </div>
-                    <div class="error" ng-if="createNoteForm.noteTitle.$error.minlength">
-                        {{'notebook.common.error.minlength' | translate:{minLen:5} }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+  <edit-note-form note="$ctrl.note" form="$ctrl.form"></edit-note-form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="submit" ng-click="$ctrl.ok()" ng-class="{disabled: $ctrl.saving}">
+  <button class="btn btn-primary" type="submit" ng-click="$ctrl.ok()" ng-class="{disabled: $ctrl.saving || $ctrl.form.$invalid}">
         <spinner ng-if="$ctrl.saving"></spinner>
         {{'notebook.createForm.okButton' | translate}}
     </button>

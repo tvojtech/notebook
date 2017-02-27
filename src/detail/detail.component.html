@@ -1,9 +1,25 @@
-<div ng-if="!$ctrl.item.$resolved">
-    <spinner message="{{'notebook.loading' | translate}}"></spinner>
+<div class="container-fluid actions text-right">
+  <button ng-if="!$ctrl.edit" ng-click="$ctrl.edit = true">{{'notebook.detail.edit' | translate}}</button>
+  <button ng-if="$ctrl.edit" ng-click="" ng-class="{disabled: $ctrl.saving || $ctrl.form.$invalid}">
+    {{'notebook.detail.save' | translate}}
+  </button>
+  <button ng-if="$ctrl.edit" ng-click="">{{'notebook.detail.cancel' | translate}}</button>
 </div>
-<div ng-if="$ctrl.item.$resolved">
-    <label>
-        Title
-        <span>{{$ctrl.item.title}}</span>
-    </label>
+
+<div class="container-fluid" ng-if="!$ctrl.edit">
+  <div class="row" ng-if="!$ctrl.item.$resolved">
+    <spinner message="{{'notebook.loading' | translate}}"></spinner>
+  </div>
+  <div class="row" ng-if="$ctrl.item.$resolved">
+    <div class="col-xs-12 col-sm-6"><label>
+      {{'notebook.createForm.noteTitle' | translate}}
+    </label></div>
+    <div class="col-xs-12 col-sm-6">
+      {{$ctrl.item.title}}
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" ng-if="$ctrl.edit">
+  <edit-note-form form="$ctrl.form" note="$ctrl.item"></edit-note-form>
 </div>

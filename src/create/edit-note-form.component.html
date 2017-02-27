@@ -1,0 +1,20 @@
+<form name="editNoteForm" novalidate>
+  <div ng-init="$ctrl.form = editNoteForm"></div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6"><label for="editNoteForm_noteTitle">
+        {{'notebook.createForm.noteTitle' | translate}}
+      </label></div>
+      <div class="col-xs-12 col-sm-6">
+        <input type="text" id="editNoteForm_noteTitle" name="noteTitle" ng-model="$ctrl.note.title"
+               required="" minlength="5">
+        <div class="error" ng-if="editNoteForm.noteTitle.$error.required">
+          {{'notebook.common.error.required' | translate}}
+        </div>
+        <div class="error" ng-if="editNoteForm.noteTitle.$error.minlength">
+          {{'notebook.common.error.minlength' | translate:{minLen:5} }}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

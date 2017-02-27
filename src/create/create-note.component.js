@@ -1,4 +1,4 @@
-angular.module('notebook').component('createNoteForm', {
+angular.module('notebook').component('createNote', {
   templateUrl: 'create/create-note.component.html',
   bindings: {
     close: '&',
@@ -7,7 +7,6 @@ angular.module('notebook').component('createNoteForm', {
   controller: function (NotesApi) {
     this.note = {}
     this.ok = () => {
-      this.submitted = true
       if (!this.form.$valid) {
         return
       }

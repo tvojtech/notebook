@@ -10,7 +10,7 @@ angular.module('notebook').component('createNoteButton', {
   controller: function ($uibModal) {
     this.openCreateNote = () => {
       $uibModal.open({
-        component: 'createNoteForm',
+        component: 'createNote',
         keyboard: false,
         backdrop: 'static'
       }).result
