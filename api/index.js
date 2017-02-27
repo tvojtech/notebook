@@ -12,5 +12,4 @@ app.get('/*', function (req, res) {
   // Just send the index.html for other files to support HTML5Mode
   res.sendFile('index.html', {root: path.join(process.cwd(), '.tmp')})
 })
-
 app.listen(process.env.NODE_PORT || 3000)

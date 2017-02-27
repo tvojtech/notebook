@@ -17,6 +17,8 @@ const uglify = require('gulp-uglify')
 const uglifycss = require('gulp-uglifycss')
 const htmlmin = () => require('gulp-htmlmin')({removeComments: true, collapseWhitespace: true})
 const jsonMinify = require('gulp-json-minify')
+const ngAnnotate = require('gulp-ng-annotate')
+const watch = require('gulp-watch')
 
 const tempDest = '.tmp'
 const distDest = 'dist'
@@ -29,7 +31,7 @@ gulp.task('clean', () => {
   del(['.tmp/**', '.tmp', 'dist/**', 'dist'], {force: true})
 })
 
-gulp.task('server-dev', () => {
+gulp.task('server-dev', ['watch'], () => {
   nodemon({
     script: 'api/index.js',
     // this listens to changes in any of these files/routes and restarts the application
@@ -55,15 +57,15 @@ gulp.task('test:e2e', done => {
 gulp.task('test')
 
 gulp.task('copy-public', () => gulp.src('public/**/*').pipe(gulp.dest(tempDest)))
-gulp.task('build-public', ['copy-public'], () => {
-  return gulp.src('index.html', {cwd: tempDest})
+gulp.task('build-public', ['copy-public'], () =>
+  gulp.src('index.html', {cwd: tempDest})
     .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower', addRootSlash: false}))
     .pipe(inject(gulp.src(['module.js', '**/*.js', '**/*.css', '!bower_components/**'], {read: false, cwd: tempDest}), {
       addRootSlash: false,
       relative: true
     }))
     .pipe(gulp.dest(tempDest))
-})
+)
 gulp.task('build-js', () => gulp.src('src/**/*.js').pipe(babel()).on('error', console.log).pipe(gulp.dest(tempDest)))
 gulp.task('build-html', () => gulp.src('src/**/*.html').pipe(gulp.dest(tempDest)))
 gulp.task('build-locales', () => gulp.src('locales/**/*').pipe(gulp.dest(path.join(tempDest, 'locales'))))
@@ -77,12 +79,12 @@ gulp.task('build-dev', done => runSequence(
   )
 )
 
-gulp.task('watch-public', () => gulp.watch('public/**/*', ['build-public']))
-gulp.task('watch-js', () => gulp.watch('src/**/*.js', ['build-js']))
-gulp.task('watch-html', () => gulp.watch('src/**/*.html', ['build-html']))
-gulp.task('watch-locales', () => gulp.watch('locales/**/*', ['build-locales']))
-gulp.task('watch-bower', () => gulp.watch('bower_components/**/*', ['build-bower']))
-gulp.task('watch-sass', () => gulp.watch('src/**/*.scss', ['build-sass']))
+gulp.task('watch-public', () => gulp.watch('public/**/*', ['build-dev']))
+gulp.task('watch-js', () => gulp.watch('src/**/*.js', ['build-dev']))
+gulp.task('watch-html', () => gulp.watch('src/**/*.html', ['build-dev']))
+gulp.task('watch-locales', () => gulp.watch('locales/**/*', ['build-dev']))
+gulp.task('watch-bower', () => gulp.watch('bower_components/**/*', ['build-dev']))
+gulp.task('watch-sass', () => gulp.watch('src/**/*.scss', ['build-dev']))
 
 gulp.task('watch', ['watch-public', 'watch-js', 'watch-html', 'watch-locales', 'watch-bower', 'watch-sass'])
 
@@ -90,6 +92,7 @@ gulp.task('build-html-prod', () => gulp.src(path.join(tempDest, '**/*.html')).pi
 gulp.task('build-js-prod', ['build-html-prod'], () =>
   // todo: add templates to template cache
   gulp.src(path.join(tempDest, '**/*.js'))
+    .pipe(ngAnnotate())
     .pipe(concat('bundle.js')).on('error', console.log)
     .pipe(ngmin())
     .pipe(uglify({mangle: false}))
@@ -133,4 +136,4 @@ gulp.task('docker', () => {
 
 gulp.task('build', done => runSequence(['clean', 'eslint', 'test'], 'build-dev', 'build-prod', done))
 
-gulp.task('default', done => runSequence(['clean', 'eslint'], 'build-dev', ['server-dev', 'watch'], done))
+gulp.task('default', done => runSequence(['clean', 'eslint'], 'build-dev', 'server-dev', done))
