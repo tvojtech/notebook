@@ -37,9 +37,9 @@ footer {
 
 .spinner {
   @extend .fa;
-  @extend .fa-spin;
   @extend .fa-spinner;
-  padding-right: 5px;
+  @extend .fa-spin;
+  margin-right: 5px;
 }
 
 .navbar-default .navbar-nav .lang.active {
@@ -51,6 +51,9 @@ footer {
   border-left: 0;
   border-right: 0;
 
+  &:first-child {
+    border-top: 0;
+  }
   &:first-child, &:last-child {
     border-radius: 0;
   }
@@ -59,9 +62,6 @@ footer {
 .button-create {
   @extend .btn;
   @extend .btn-primary;
-  //position: absolute;
-  //right: 20px;
-  //top: 55px;
 }
 
 .button-create:before {
@@ -79,4 +79,13 @@ input.ng-invalid {
 
 .error {
   color: red;
+}
+
+.actions {
+  @extend .row;
+  margin-top: -15px;
+  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
 }

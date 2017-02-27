@@ -1,10 +1,11 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="actions">
     <div class="col-sm-6 col-xs-12">
       <create-note-button on-create="$ctrl.loadNotes()"></create-note-button>
     </div>
     <div class="col-sm-6 col-xs-12 text-right">
-      <input type="text" ng-model="$ctrl.search" ng-change="$ctrl.loadNotes()" placeholder="{{'notebook.list.searchPlaceholder' | translate}}">
+      <input type="text" ng-model="$ctrl.search" ng-change="$ctrl.loadNotes()"
+             placeholder="{{'notebook.list.searchPlaceholder' | translate}}" ng-model-options="{ debounce: 300 }">
     </div>
   </div>
 </div>

@@ -1,9 +1,24 @@
-<div class="container-fluid actions text-right">
-  <button ng-if="!$ctrl.edit" ng-click="$ctrl.edit = true">{{'notebook.detail.edit' | translate}}</button>
-  <button ng-if="$ctrl.edit" ng-click="" ng-class="{disabled: $ctrl.saving || $ctrl.form.$invalid}">
-    {{'notebook.detail.save' | translate}}
-  </button>
-  <button ng-if="$ctrl.edit" ng-click="">{{'notebook.detail.cancel' | translate}}</button>
+<!-- todo: disable actions while saving/deleting -->
+<div class="container-fluid">
+  <div class="actions actions-detail">
+    <div class="col-xs-12 text-right">
+      <button ng-if="!$ctrl.edit" ng-click="$ctrl.startEditing()" class="btn btn-primary">
+        {{'notebook.detail.edit' | translate}}
+      </button>
+      <button ng-if="$ctrl.edit" ng-click="$ctrl.saveEdit()"
+              class="btn btn-primary">
+        <spinner ng-if="$ctrl.saving"></spinner>
+        {{'notebook.detail.save' | translate}}
+      </button>
+      <button ng-if="$ctrl.edit" ng-click="$ctrl.cancelEditing()" class="btn btn-secondary">
+        {{'notebook.detail.cancel' | translate}}
+      </button>
+      <button ng-if="!$ctrl.edit" ng-click="$ctrl.deleteNote()" class="btn btn-danger">
+        <spinner ng-if="$ctrl.deleting"></spinner>
+        {{'notebook.detail.delete' | translate}}
+      </button>
+    </div>
+  </div>
 </div>
 
 <div class="container-fluid" ng-if="!$ctrl.edit">
@@ -21,5 +36,5 @@
 </div>
 
 <div class="container-fluid" ng-if="$ctrl.edit">
-  <edit-note-form form="$ctrl.form" note="$ctrl.item"></edit-note-form>
+  <edit-note-form form="$ctrl.form" note="$ctrl.itemClone"></edit-note-form>
 </div>

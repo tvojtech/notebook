@@ -21,6 +21,12 @@
     },
     "list": {
       "searchPlaceholder": "Hledat"
+    },
+    "detail": {
+      "edit": "Editovat",
+      "cancel": "Zrušit",
+      "save": "Uložit",
+      "delete": "Smazat"
     }
   }
 }

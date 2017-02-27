@@ -3,6 +3,10 @@ angular.module('notebook').factory('NotesApi', $resource =>
       save: {
         method: 'POST',
         isArray: true // incorrect API!
+      },
+      update: {
+        method: 'PUT',
+        isArray: false
       }
     })
 )
