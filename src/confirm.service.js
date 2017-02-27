@@ -12,7 +12,7 @@ angular.module('notebook').service('confirmDialog', function ($uibModal) {
   },
   template: `
     <div class="modal-header">
-      <h3 class="modal-title">{{'notebook.common.confirm' | translate}}</h3>
+      <h3 class="modal-title">{{'notebook.common.confirm.title' | translate}}</h3>
     </div>
     <div class="modal-body">
       {{ 'notebook.common.confirm.text' | translate }}

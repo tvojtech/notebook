@@ -6,7 +6,7 @@
         "minlength": "This field requires value at least {{minLen}} long."
       },
       "confirm": {
-        "": "Confirm",
+        "title": "Confirm",
         "text": "Are you sure?",
         "ok": "Yes",
         "cancel": "No"
