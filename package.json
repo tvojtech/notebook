@@ -18,10 +18,16 @@
     "gulp-angular-protractor": "^0.4.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.1",
+    "gulp-docker": "^0.0.12",
     "gulp-eslint": "^3.0.1",
+    "gulp-htmlmin": "^3.0.0",
     "gulp-inject": "^4.2.0",
+    "gulp-json-minify": "^1.0.7",
+    "gulp-ngmin": "^0.3.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^2.0.1",
+    "gulp-uglifycss": "^1.0.6",
     "gulp-watch": "^4.3.11",
     "main-bower-files": "^2.13.1",
     "node-notify": "^1.0.0",
@@ -29,7 +35,5 @@
     "request": "^2.79.0",
     "run-sequence": "^1.2.2"
   },
-  "dependencies": {
-    "gulp-docker": "^0.0.12"
-  }
+  "dependencies": {}
 }
