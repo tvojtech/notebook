@@ -18,8 +18,8 @@ const uglifycss = require('gulp-uglifycss')
 const htmlmin = () => require('gulp-htmlmin')({removeComments: true, collapseWhitespace: true})
 const jsonMinify = require('gulp-json-minify')
 const ngAnnotate = require('gulp-ng-annotate')
-const gulpOrder = require('gulp-order')
 const filter = require('gulp-filter')
+const mergeStream = require('merge-stream')
 
 const tempDest = '.tmp'
 const distDest = 'dist'
@@ -90,24 +90,20 @@ gulp.task('watch-sass', () => gulp.watch('src/**/*.scss', ['build-dev']))
 gulp.task('watch', ['watch-public', 'watch-js', 'watch-html', 'watch-locales', 'watch-bower', 'watch-sass'])
 
 gulp.task('build-html-prod', () => gulp.src(path.join(tempDest, '**/*.html')).pipe(htmlmin()).pipe(gulp.dest(distDest)))
-gulp.task('build-js-prod', ['build-html-prod'], () =>
+gulp.task('build-js-prod', ['build-html-prod'], () => {
   // todo: add templates to template cache
-  gulp.src(bowerFiles())
-    .pipe(filter('**/*.js'))
-    .pipe(gulp.src('src/**/*.js'))
+
+  const bowerSources = gulp.src(bowerFiles()).pipe(filter('**/*.js'))
+  const localSources = gulp.src(['src/module.js', 'src/**/*.js']).pipe(babel())
+
+  return mergeStream(bowerSources, localSources)
     // .pipe(gulp.src([path.join(tempDest, '**/*.js'), path.join('!' + tempDest, 'bower_components/**/*.js')]))
-    .pipe(gulpOrder([
-      '**/angular/**/*.js',
-      'bower_components/**/*.js',
-      'module.js',
-      '**/*.js'
-    ]))
-    .pipe(ngAnnotate())
     .pipe(concat('bundle.js')).on('error', console.log)
+    .pipe(ngAnnotate())
     // .pipe(ngmin())
     // .pipe(uglify({mangle: false}))
     .pipe(gulp.dest(distDest))
-)
+})
 gulp.task('build-css-prod', () =>
   gulp.src(path.join(tempDest, '/**/*.css'))
     .pipe(concat('app.css'))

@@ -1,6 +1,6 @@
 angular.module('notebook').component('alerts', {
   template: `
-    <div uib-alert ng-repeat="alert in $ctrl.getAlerts()" ng-class="'alert-' + (alert.type || 'warning')" 
+    <div uib-alert ng-repeat="alert in $ctrl.getAlerts() track by alert.id" ng-class="'alert-' + (alert.type || 'warning')" 
       dismiss-on-timeout="10000" close="$ctrl.closeAlert(alert)">
       {{alert.message | translate:alert.params}}
     </div>
