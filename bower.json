@@ -24,6 +24,7 @@
     "bootstrap-sass": "^3.3.7",
     "font-awesome": "^4.7.0",
     "angular-translate": "^2.14.0",
-    "angular-translate-loader-static-files": "^2.14.0"
+    "angular-translate-loader-static-files": "^2.14.0",
+    "angular-uuids": "https://github.com/munkychop/angular-uuid.git#^0.0.4"
   }
 }

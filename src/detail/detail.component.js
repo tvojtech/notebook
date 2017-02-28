@@ -1,6 +1,6 @@
 angular.module('notebook').component('noteDetail', {
   templateUrl: 'detail/detail.component.html',
-  controller: function ($state, $stateParams, NotesApi, confirmDialog) {
+  controller: function ($state, $stateParams, NotesApi, confirmDialog, alertService) {
     const $ctrl = this
     $ctrl.loading = true
     $ctrl.item = NotesApi.get({id: $stateParams.id})
@@ -10,7 +10,10 @@ angular.module('notebook').component('noteDetail', {
     $ctrl.deleteNote = () => {
       confirmDialog.open().then(() => {
         $ctrl.deleting = true
-        NotesApi.delete({id: $stateParams.id}).$promise.then(() => $state.go('notebook.list'))
+        NotesApi.delete({id: $stateParams.id}).$promise.then(() => {
+          $state.go('notebook.list')
+          alertService.addAlert('notebook.detail.deleted')
+        })
       })
     }
     $ctrl.startEditing = () => {
@@ -25,7 +28,10 @@ angular.module('notebook').component('noteDetail', {
       $ctrl.saving = true
       Object.keys($ctrl.itemClone).forEach(key => $ctrl.item[key] = $ctrl.itemClone[key])
       $ctrl.item.$update()
-        .then(() => $ctrl.edit = false)
+        .then(() => {
+          $ctrl.edit = false
+          alertService.addAlert('notebook.detail.saved')
+        })
         .finally(() => {
           $ctrl.saving = false
           $ctrl.itemClone = undefined

@@ -89,3 +89,13 @@ input.ng-invalid {
   align-items: center;
   border-bottom: 1px solid #ddd;
 }
+
+.alert {
+  margin-bottom: 1px;
+  &:last-of-type {
+    margin-bottom: 20px;
+  }
+  &:first-of-type {
+    margin-top: -15px;
+  }
+}

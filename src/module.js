@@ -6,7 +6,8 @@ angular.module(
     'ui.bootstrap',
     'ngAnimate',
     'ngTouch',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'angular-uuid'
   ]
 ).config($translateProvider => {
   $translateProvider.useSanitizeValueStrategy(null)

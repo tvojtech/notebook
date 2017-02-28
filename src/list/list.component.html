@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="actions">
     <div class="col-sm-6 col-xs-12">
-      <create-note-button on-create="$ctrl.loadNotes()"></create-note-button>
+      <create-note-button on-create="$ctrl.onNewNoteCreated()"></create-note-button>
     </div>
     <div class="col-sm-6 col-xs-12 text-right">
       <input type="text" ng-model="$ctrl.search" ng-change="$ctrl.loadNotes()"
