@@ -2,6 +2,8 @@ angular.module('notebook').service('alertService', function (uuid) {
   let alerts = []
   let listeners = []
 
+  const callListeners = () => listeners.forEach(l => l())
+
   this.getAlerts = () => alerts.map(alert => angular.copy(alert))
   this.addAlert = (messageOrAlertObject) => {
     alerts = [...alerts, {
@@ -10,10 +12,16 @@ angular.module('notebook').service('alertService', function (uuid) {
       message: typeof messageOrAlertObject === 'string' && messageOrAlertObject || messageOrAlertObject.message,
       params: messageOrAlertObject.params
     }]
-    listeners.forEach(l => l())
+    callListeners()
   }
-  this.removeAlert = alert => alerts = alerts.filter(a => a.id !== alert.id)
-  this.flush = () => alerts = []
+  this.removeAlert = alert => {
+    alerts = alerts.filter(a => a.id !== alert.id)
+    callListeners()
+  }
+  this.flush = () => {
+    alerts = []
+    callListeners()
+  }
 
   this.addListener = listener => listeners = listeners.concat(listener)
   this.removeListener = listener => listeners = listeners.filter(l => l !== listener)
