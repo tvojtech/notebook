@@ -1,0 +1,38 @@
+{
+  "notebook": {
+    "common": {
+      "error": {
+        "required": "This field is required.",
+        "minlength": "This field requires value at least {{minLen}} long."
+      },
+      "confirm": {
+        "title": "Confirm",
+        "text": "Are you sure?",
+        "ok": "Yes",
+        "cancel": "No"
+      }
+    },
+    "title": "Notes",
+    "loading": "Loading...",
+    "breadcrumbs": {
+      "list": "List",
+      "detail": "Detail"
+    },
+    "create": "New Note",
+    "createForm": {
+      "title": "New Note",
+      "noteTitle": "Note Title",
+      "okButton": "OK",
+      "cancelButton": "Cancel"
+    },
+    "list": {
+      "searchPlaceholder": "Search"
+    },
+    "detail": {
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete"
+    }
+  }
+}

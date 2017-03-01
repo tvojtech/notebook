@@ -1,0 +1,30 @@
+{
+  "name": "notebook-angular",
+  "description": "",
+  "authors": [
+    "Tomas Vojtech <tomas.vojtech@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/tvojtech/notebook",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-ui-router": "^0.4.2",
+    "angular-resource": "^1.6.2",
+    "angular-bootstrap": "^2.5.0",
+    "angular-animate": "^1.6.2",
+    "angular-touch": "^1.6.2",
+    "bootstrap-sass": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "angular-translate": "^2.14.0",
+    "angular-translate-loader-static-files": "^2.14.0",
+    "angular-uuids": "https://github.com/munkychop/angular-uuid.git#^0.0.4"
+  }
+}
