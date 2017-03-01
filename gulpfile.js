@@ -97,12 +97,12 @@ gulp.task('build-js-prod', ['build-html-prod'], () => {
   const localSources = gulp.src(['src/module.js', 'src/**/*.js']).pipe(babel())
 
   return mergeStream(bowerSources, localSources)
-    // .pipe(gulp.src([path.join(tempDest, '**/*.js'), path.join('!' + tempDest, 'bower_components/**/*.js')]))
-    .pipe(concat('bundle.js')).on('error', console.log)
+    .pipe(concat('bundle.js'))
     .pipe(ngAnnotate())
-    // .pipe(ngmin())
-    // .pipe(uglify({mangle: false}))
+    .pipe(ngmin())
+    .pipe(uglify())
     .pipe(gulp.dest(distDest))
+    .on('error', console.log)
 })
 gulp.task('build-css-prod', () =>
   gulp.src(path.join(tempDest, '/**/*.css'))
@@ -111,6 +111,7 @@ gulp.task('build-css-prod', () =>
     .pipe(uglifycss())
     .pipe(gulp.dest(distDest))
 )
+gulp.task('build-fonts-prod', () => gulp.src('bower_components/**/fonts/**/*').pipe(gulp.dest(path.join(distDest, 'bower_components'))))
 gulp.task('build-locales-prod', () => gulp.src(path.join(tempDest, 'locales/**/*')).pipe(jsonMinify()).pipe(gulp.dest(path.join(distDest, 'locales'))))
 gulp.task('copy-public-prod', () => gulp.src('public/**/*').pipe(gulp.dest(distDest)))
 gulp.task('build-index-prod', () =>
@@ -124,7 +125,7 @@ gulp.task('build-index-prod', () =>
 )
 
 gulp.task('build-prod', done => runSequence(
-  ['build-js-prod', 'build-css-prod', 'build-locales-prod'],
+  ['build-js-prod', 'build-css-prod', 'build-locales-prod', 'build-fonts-prod'],
   'copy-public-prod',
   'build-index-prod',
   done
@@ -133,7 +134,8 @@ gulp.task('build-prod', done => runSequence(
 
 gulp.task('docker', () => {
   new docker(gulp, {
-    sidekick: {
+    notebook: {
+      name: 'notebook',
       dockerfile: '.'
     }
   })

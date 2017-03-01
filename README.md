@@ -37,5 +37,13 @@ Build is implemented as `gulp` tasks.
 - `eslint` - runs source static analysis 
 - `test:e2e` - run `protractor` tests, by default tests run against local server (can be changed in `protractor.conf.js`), server must be started manually before running tests
 - `build` - builds production ready version of the application - sources minification and concatenation applied
+ 
+`gulp build` todos: 
+- adding html templates to template cache
 
-NOTE: `build` task currently does not work properly. It does not produce runnable code. 
+## Production
+
+To run production version first build app using `gulp build`. Then run `docker build -t notebook:latest .`.
+Then start docker container by `docker run -d --rm -p 4000:3000 notebook:latest`.
+
+Try `http://localhost:4000` in browser.

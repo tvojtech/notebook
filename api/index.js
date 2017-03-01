@@ -13,7 +13,7 @@ app.all('/api/*', function (req, res) {
   request(newurl).pipe(res)
 })
 
-const uiSourceDir = path.join(process.cwd(), process.env.UI_SOURCE)
+const uiSourceDir = path.isAbsolute(process.env.UI_SOURCE) ? process.env.UI_SOURCE : path.join(process.cwd(), process.env.UI_SOURCE)
 app.use(express.static(uiSourceDir))
 app.get('/*', function (req, res) {
   // Just send the index.html for other files to support HTML5Mode
